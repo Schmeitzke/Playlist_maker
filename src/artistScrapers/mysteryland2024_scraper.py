@@ -52,7 +52,7 @@ def extract_artist_names_from_soup(soup):
     print(f"Extracted {len(artist_names)} unique artist names.")
     return artist_names
 
-def save_to_csv(artist_names, filename='../Spotify_playlist_maker\src\mysterylandArtists.csv'):
+def save_to_csv(artist_names, filename='../src\artists.csv'):
     """Save the artist names to a CSV file"""
     print(f"Saving artist names to {filename}...")
     sorted_names = sorted(artist_names)  # Sort the artist names alphabetically
@@ -63,32 +63,24 @@ def save_to_csv(artist_names, filename='../Spotify_playlist_maker\src\mysterylan
 def main():
     url = 'https://www.mysteryland.nl/line-up'
     
-    # Step 1: Initialize the browser and load the page
     browser = initialize_browser()
     print(f"Loading page: {url}...")
     browser.get(url)
     
-    # Step 2: Wait for the page to load and check for any cookie consent dialog
     time.sleep(3)  # Give the page some time to fully load
     handle_cookies(browser)  # Handle cookie consent if present
     
-    # Step 3: Click the grid toggle button
     click_toggle_button(browser)
     
-    # Step 4: Wait for the list view to render
     time.sleep(3)  # Adjust this time if needed
     
-    # Step 5: Get the updated HTML content and parse it with BeautifulSoup
     html_content = get_html_from_browser(browser)
     soup = BeautifulSoup(html_content, 'html.parser')
     
-    # Step 6: Extract artist names
     artist_names = extract_artist_names_from_soup(soup)
     
-    # Step 7: Save the artist names to a CSV file
     save_to_csv(artist_names)
     
-    # Step 8: Close the browser
     print("Closing the browser...")
     browser.quit()
     print("Browser closed. Script completed.")
